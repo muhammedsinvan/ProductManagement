@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import "./SignIn.css";
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
+
+    const navigate = useNavigate();
 
     const[eye,seteye]=useState(true);
     const[inpass,setinpass]=useState("password");
@@ -50,7 +53,7 @@ const SignIn = () => {
                    </form>   
                    <text className='reg-button_or'>OR</text>
                    <div className="reg-button">
-                      <button type="submit">SIGN UP</button>
+                      <button type="submit" onClick={()=>navigate('/signup')}>SIGN UP</button>
                       
                   </div> 
           </div>
@@ -59,7 +62,7 @@ const SignIn = () => {
           <div className='right-side-text'>
             <text>Hello Friend!</text>
             <p>Enter your personal details and start journey with us</p>
-            <button>
+            <button onClick={()=>navigate('/signup')}>
               SIGN UP
             </button>
             </div>
