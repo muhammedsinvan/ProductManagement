@@ -5,6 +5,8 @@ import './SubHeader.css'
 const SubHeader = () => {
   return (
     <div className='subHeader-container'>
+       
+        
         <div className='subHeader-pagenames'>
             <div className='subHeader-pagename'>
             <text>Home</text>
@@ -18,7 +20,7 @@ const SubHeader = () => {
             <button>Add Sub Category</button>
             <button>Add Product</button>
         </div>
-    </div>
+        </div>
   )
 }
 
