@@ -1,4 +1,4 @@
-.subHeader-container{
+/* .subHeader-container{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -6,13 +6,27 @@
     width: 100%;
     height: 10rem;
     position: fixed;
- 
+} */
+.subHeader-subContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 10rem;
+    position: fixed;
 }
 
+.subHeader-container{
+    display: flex;
+}
+
+
+
 .subHeader-pagenames{
-    background-color: white;
     display: flex;
     margin-left: 1.5rem;
+    margin-top: 6rem;
+    justify-content: flex-start;
 }
 
 .subHeader-pagename{
@@ -23,6 +37,12 @@
 
 .subHeader-pagename text{
     font-size: 1.2rem;
+}
+
+.subHeader-buttons{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .subHeader-buttons button{
@@ -36,10 +56,6 @@
 }
 
 @media (max-width:900px) {
-    .subHeader-container{
-        height: 12rem;
-       flex-direction: column;
-    }
 
     .subHeader-pagenames{
        width: 100%;
@@ -54,9 +70,10 @@
 }
 
 @media (max-width:650px) {
-    .subHeader-container{
-        padding-top: 10rem;
-     }
+
+    .subHeader-pagenames{
+        margin-top: 10rem;
+    }
 
      .subHeader-pagename text{
         font-size: 1rem;
