@@ -5,6 +5,7 @@
     padding-top: 6rem;
     width: 100%;
     height: 10rem;
+    position: fixed;
 }
 
 .subHeader-pagenames{
@@ -64,7 +65,7 @@
     }
     
     .subHeader-buttons button{
-        padding: 1rem 1rem;
+        padding: 0.2rem 0.4rem;
         margin: 0rem 0.2rem;
         font-weight: 800;
     }
