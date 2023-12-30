@@ -1,21 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
 import "./Header.css";
 
 const Header = () => { 
 
-    const [togglemenu,setTogglemenu] = useState(false)
-
-    function togglebutton(){
-        if(togglemenu === false){
-          setTogglemenu(true)
-        }else{
-          setTogglemenu(false)
-        }
-      }
 
   return (
     <div className='header-container'>
