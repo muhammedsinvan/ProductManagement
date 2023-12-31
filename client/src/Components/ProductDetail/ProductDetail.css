@@ -1,6 +1,7 @@
 .ProductDetail-container{
     display: flex;
     margin: 2rem;
+    margin-top: 6rem;
 }
 
 .ProductDetail-img{

@@ -12,12 +12,14 @@
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    height: 10rem;
     position: fixed;
+    margin-top: 6rem;
+
 }
 
 .subHeader-container{
     display: flex;
+    flex-direction: column;
 }
 
 
@@ -25,8 +27,6 @@
 .subHeader-pagenames{
     display: flex;
     margin-left: 1.5rem;
-    margin-top: 6rem;
-    justify-content: flex-start;
 }
 
 .subHeader-pagename{
@@ -71,9 +71,11 @@
 
 @media (max-width:650px) {
 
-    .subHeader-pagenames{
+    .subHeader-subContainer{
         margin-top: 10rem;
     }
+
+  
 
      .subHeader-pagename text{
         font-size: 1rem;

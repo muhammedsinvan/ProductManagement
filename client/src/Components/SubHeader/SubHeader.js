@@ -8,8 +8,10 @@ const SubHeader = () => {
    
        
         <div className='subHeader-subContainer'>
-           <PageName />
-       <Buttons/>
+          <PageName />
+             <Buttons/>
+           
+      
         </div>
   )
 }
