@@ -52,6 +52,13 @@ const signupdata = async (req, res) => {
       res.json(error);
     }
   };
+
+  const checktoken =(req,res)=>{
+    res.json({
+      message: "token success",
+      success: true
+  })
+  }
   
 
-  export {signupdata,signindata}
+  export {signupdata,signindata,checktoken}
