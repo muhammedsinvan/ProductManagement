@@ -191,6 +191,20 @@ input[type="password"]{
     display: none;
   }
 
+  .signin-error-message{
+    color: rgb(255, 0, 0);
+    font-weight: 700;
+    padding-left: 1rem;
+    border-radius: 0.1rem;
+}
+
+.signin-error{
+    color: red;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: fantasy;
+}
+
   @media (max-width:900px) {
     .left-side_content{
         margin: 0rem 2rem;
