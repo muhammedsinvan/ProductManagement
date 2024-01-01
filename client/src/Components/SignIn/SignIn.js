@@ -57,7 +57,7 @@ const SignIn = () => {
                       
                   </div> 
           </div>
-          </div>
+          </div> 
           <div className="right-side">
           <div className='right-side-text'>
             <text>Hello Friend!</text>

@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {useForm} from "react-hook-form";
+import  {yupResolver} from "@hookform/resolvers/yup";
+import axios from 'axios';
+import * as Yup from 'yup';
 import "./SignUp.css";
 
 const SignUp = () => {
@@ -8,6 +12,8 @@ const SignUp = () => {
 
     const[eye,seteye]=useState(true);
     const[inpass,setinpass]=useState("password");
+
+    const [errormessage,setError] = useState('')
 
     const Eye=()=>{
         if(inpass==="password"){
@@ -19,6 +25,35 @@ const SignUp = () => {
             seteye(true);  
         }
      }
+
+     const validationSchema = Yup.object().shape({
+        username:Yup.string().required('Enter valid username'),
+        email:Yup.string().required('Enter valid email').email('Enter correct email'),
+        password:Yup.string().required('Enter valid password')
+        .min(6,'Password must be atleast 6 characters')
+        .max(8, 'Password must not exceed 8 characters')
+    
+      }).required()
+    
+
+      const {
+        register,
+        handleSubmit, 
+        formState: { errors }
+      } = useForm({
+        resolver: yupResolver(validationSchema)
+      });
+
+
+      const onsubmit = async(data) => {
+        try{
+           await axios.post("/api/signup",data)
+          navigate('/signin')
+        }catch(error){
+          setError(error.response.data)
+        }
+    };
+    
 
   return (
     <>
@@ -45,21 +80,26 @@ const SignUp = () => {
             <div className="r-heading">
                       <text>Create Account</text>
                   </div>
-                  <form  >
+                  <form onSubmit={handleSubmit(onsubmit)} >
+                  <div className='registration-error'>{errormessage}</div>
                   <div className="r-input-text">
-                        <input type="text" className='r-wusername' placeholder='Name'/>
+                        <input type="text" className='r-wusername' placeholder='Name' {...register('username')}/>
                         <i className="fa fa-user"></i>
                     </div>
+                    {errors.username && <p className='register-error-message'>{errors.username.message}</p>}
                   <div className="r-input-text">
-                      <input type="text" className='r-wemail' placeholder='Email'  />
+                      <input type="text" className='r-wemail' placeholder='Email' {...register('email')}  />
                       
                       <i className="fa fa-envelope"></i>
                   </div>
+                  {errors.email && <p className='register-error-message'>{errors.email.message}</p>}
                   <div className="r-input-text">
-                      <input type={inpass} className='r-wpassword' placeholder='Password'  />
+                      <input type={inpass} className='r-wpassword' placeholder='Password' {...register('password')} />
                       <i className="fa fa-lock"></i>
                       <i onClick={Eye} className={`fa ${eye ? "fa-eye-slash" : "fa-eye"}`}></i>
+                      
                   </div>
+                  {errors.password && <p className='register-error-message'>{errors.password.message}</p>}
                  
                   <div className="r-button">
                       <button type="submit">SIGN UP</button>
