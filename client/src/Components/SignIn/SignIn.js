@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./SignIn.css";
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -55,6 +55,32 @@ const SignIn = () => {
           setErrorMessage(error.response.data)
         }
     };
+
+
+    const userInfo = localStorage.getItem('usertoken')
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo}`,
+      },
+    };
+    
+    useEffect(()=>{
+      (async()=>{
+        try{
+          let res = await axios.get('/api/checktoken',config)
+          if(res.data.success === true){
+            navigate('/')
+          }
+        }catch(error){
+          if(error.response.status == 401){
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem('userid')
+          }
+        }
+      })()
+      
+    })
     
 
   return (
