@@ -64,6 +64,13 @@
     background-color: #EEEEEE;
 }
 
+.addCategory-error{
+    color: red;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: fantasy;
+}
+
 @media (max-width:600px) {
     .addCatagory-container{
         width: 25rem;

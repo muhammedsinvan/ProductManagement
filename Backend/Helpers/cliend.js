@@ -1,6 +1,7 @@
 import user from "../Model/user.js";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
+import catagory from "../Model/addCategory.js";
 
 const signupdata = async (req, res) => {
     const { username, email, password } = req.body;
@@ -59,6 +60,49 @@ const signupdata = async (req, res) => {
       success: true
   })
   }
+
+  const addcatagory = async (req, res) => {
+    const { name } = req.body;
+    try {
+      const newcatagory = new catagory({
+        name
+      });
+  
+      const catagoryadded = await newcatagory.save();
+      res.json(catagoryadded);
+    } catch (error) {
+      res.status(500);
+      res.json(error);
+    }
+  };
+
+
+  const getcatagory = async (req,res)=>{
+    try{
+        const data = await catagory.find();
+        console.log(data)
+        res.json(data);    
+    }catch(error){
+        res.status(500);
+        res.json(error);
+    }
+  }
+
+
+  const addsubcatagory = async (req,res)=>{
+    const catagoryId = req.params.id;
+    try {
+      let catagoryData = await catagory.findOne({ _id: catagoryId });
+      if (catagoryData) {
+        let newdata = catagoryData.subcategory.push(req.body);
+        console.log(newdata);
+      }
+      let addSubCategory = await catagoryData.save(); 
+      res.json(addSubCategory);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
   
 
-  export {signupdata,signindata,checktoken}
+  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory}
