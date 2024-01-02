@@ -2,6 +2,8 @@ import user from "../Model/user.js";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
 import catagory from "../Model/addCategory.js";
+import product from "../Model/product.js";
+import cloudinary from "../utils/cloudinary.js";
 
 const signupdata = async (req, res) => {
     const { username, email, password } = req.body;
@@ -103,6 +105,42 @@ const signupdata = async (req, res) => {
       res.status(500).json(error);
     }
   }
+
+  const addproduct = async (req,res)=>{
+    const {
+      title,
+      ram,
+      price,
+      subcategory,
+      category,
+      discription,
+      qty,
+      image1,
+      image2
+    } = req.body;
+    const response1 = await cloudinary.uploader.upload(image1);
+    const response2 = await cloudinary.uploader.upload(image2);
+  
+    try {
+      const newproduct = new product({
+      title,
+      ram,
+      price,
+      subcategory,
+      category,
+      discription,
+      qty,
+      image1: response1.secure_url,
+      image2: response2.secure_url,
+      });
+  
+      const productadded = await newproduct.save();
+      res.json(productadded);
+    } catch (errror) {
+      res.status(500);
+      res.json(errror);
+    }
+  }
   
 
-  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory}
+  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct}

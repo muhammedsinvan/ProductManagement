@@ -16,6 +16,7 @@
 .addProduct-mainContainer.active{
     opacity: 1;
     visibility: visible;
+    
 }
 
 .addProduct-container{
@@ -77,13 +78,18 @@
     height: fit-content;
 }
 
-.addProduct-button_qtyBtn button{
-    padding: 0.3rem 0.5rem;
+.addProduct-button_qtyBtn-button{
+    background-color: rgb(202, 198, 198);
+    cursor: pointer;
 }
 
 .addProduct-button_qtyBtn text{
-    padding: 0.4rem 1.5rem;
+    padding: 0.2rem 0rem;
     font-size: 20px;
+    width: 1.5rem;
+    display: flex;
+    justify-content: center;
+
 }
 
 .addProduct-name_subcatagory select{
@@ -123,6 +129,11 @@
 
 .addProduct-image{
     display: flex;
+}
+
+.addProduct-error_input{
+    outline-color: red;
+    outline-style: groove;
 }
 
 
