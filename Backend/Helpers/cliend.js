@@ -141,6 +141,16 @@ const signupdata = async (req, res) => {
       res.json(errror);
     }
   }
+
+  const getallproducts =async(req,res)=>{
+    try {
+      const allproduct = await product.find({}).sort({ _id: -1 });
+      res.json(allproduct);
+    } catch (error) {
+      res.status(500);
+      res.json(error);
+    }
+  }
   
 
-  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct}
+  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts}
