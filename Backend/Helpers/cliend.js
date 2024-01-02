@@ -152,5 +152,14 @@ const signupdata = async (req, res) => {
     }
   }
   
+  const getproductdetail = async (req, res) => {
+    try {
+      const data = await product.findById(req.params.id);
+      res.json(data);
+    } catch (error) {
+      res.status(500);
+      res.json(error);
+    }
+  };
 
-  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts}
+  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail}

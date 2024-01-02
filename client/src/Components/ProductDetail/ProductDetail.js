@@ -1,22 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import "./ProductDetail.css";
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const ProductDetail = () => {
+    const params = useParams();
+
+    const [detail,setDetail] = useState({})
+    const [viewimage,setViewimage] = useState()
+
+
+    useEffect(()=>{
+        (async()=>{
+          try{
+            let res = await axios.get(`/api/getproductdetail/${params.id}`);
+              setDetail(res.data)
+              setViewimage(res.data.image1)
+          }catch(error){
+            console.log(error)
+          }
+        })()
+      },[])
+
   return (
     <div className='ProductDetail-container'>
 <div className='ProductDetail-img'>
 <div className='ProductDetail-mainImg'>
-<img src='https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/61Qe0euJJZL.jpg' alt='MainImg'/>
+<img src={viewimage} alt='MainImg'/>
 </div>
 
 <div className='ProductDetail-listImg'>
         <div className='ProductDetail-listImg_One'>
-            <img src='https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/61Qe0euJJZL.jpg' alt='img' />
+            <img onClick={e => setViewimage(e.target.src)} src={detail?.image1}   alt='img' />
         </div>
         <div className='ProductDetail-listImg_One'>
-            <img src='https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/61Qe0euJJZL.jpg' alt='img' />
+            <img  onClick={e => setViewimage(e.target.src)} src={detail?.image2} alt='img' />
         </div>
 </div>
 
@@ -26,20 +46,20 @@ const ProductDetail = () => {
 
 
 <div className='ProductDetail-detail'>
-    <text className='ProductDetail-detail_heading' >Tablet as a laptop</text>
-    <text className='ProductDetail-detail_price'>$11,70</text>
+    <text className='ProductDetail-detail_heading' >{detail?.title}</text>
+    <text className='ProductDetail-detail_price'>${detail?.price}</text>
     <div className='ProductDetail-detail_avilablity'>
     <text>Availablity : </text>
     <DoneIcon style={{color:"#30BD57",marginLeft:"1rem"}}/>
     <text style={{color:"#30BD57",marginLeft:"0.5rem"}}>In stock</text>
     </div>
-    <text className='ProductDetail-detail_stock'>Hurry up! only 34 product left in stock!</text>
+    <text className='ProductDetail-detail_stock'>Hurry up! only {detail?.qty} product left in stock!</text>
     
 </div>
 <div className='ProductDetail-button'>
     <div className='ProductDetail-button_ram'>
         <text>Ram : </text>
-        <button> 4 GB </button>
+        <button> {detail?.ram} GB </button>
         <button> 8 GB </button>
         <button> 16 GB </button>
     </div>

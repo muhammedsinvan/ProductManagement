@@ -27,17 +27,17 @@ const Products = () => {
   return (
     <div className='products-container'>
 
-  {data.map((item)=>(
-    <div className='products-box' onClick={()=>navigate(`/detail/${item._id}`)} >
+  {data?.map((item)=>(
+    <div className='products-box' onClick={()=>navigate(`/detail/${item?._id}`)} >
       <div className='product-favoriteIcn'>
         <FavoriteBorderIcon />
         </div>
         <div className='product-img'>
-        <img src={item.image1} alt='product-img'/>
+        <img src={item?.image1} alt='product-img'/>
         </div>
         <div className='product-content'>
-        <text>{item.title}</text>
-    <text>${item.price}</text>
+        <text>{item?.title}</text>
+    <text>${item?.price}</text>
     <div className='product-starIcn'>
 <StarBorderIcon/>
 <StarBorderIcon/>
