@@ -2,7 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 
-import {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail} from "../Helpers/cliend.js"
+import {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult} from "../Helpers/cliend.js"
 import { protect } from '../Helpers/auth.js';
 
 
@@ -25,4 +25,5 @@ router.get("/getallproducts",getallproducts)
 
 router.get("/getproductdetail/:id",getproductdetail)
 
+router.get("/getsearchresult/:searchTerm",getsearchresult)
 export default router;

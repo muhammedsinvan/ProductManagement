@@ -5,24 +5,41 @@ import "./Products.css"
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 
-const Products = () => {
-
-
+const Products = ({ searchResults }) => {
   const [data,setData] = useState([]);
 
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    (async()=>{
-      try{
-        let res = await axios.get('/api/getallproducts')
-        setData(res.data)
-      }catch(error){
-        console.log(error)
-      }
-    })()
-  },[])
+  // useEffect(()=>{
+  //     (async()=>{
+  //       try{
+  //         let res = await axios.get('/api/getallproducts')
+  //         setData(res.data)
+  //       }catch(error){
+  //         console.log(error)
+  //       }
+  //     })()
+  // },[])
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let res = await axios.get('/api/getallproducts');
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (searchResults && searchResults.data && searchResults.data.length > 0) {
+      // Fetch all products only if there are no search results
+      setData(searchResults.data);
+    } else {
+      // Use search results if available
+      fetchData();
+    }
+  }, [searchResults]);
 
   return (
     <div className='products-container'>

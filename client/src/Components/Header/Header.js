@@ -6,11 +6,12 @@ import "./Header.css";
 import "../WhishList/WhishList.css"
 import axios from 'axios';
 
-const Header = () => { 
+const Header = ({onSearch}) => { 
 
   const navigate = useNavigate();
 
-  const [token,setToken] = useState()
+  const [token,setToken] = useState();
+  const [searchTerm, setSearchTerm] = useState('');
 
   const userInfo = localStorage.getItem('usertoken')
 
@@ -39,16 +40,26 @@ const Header = () => {
     localStorage.removeItem('userid')
     setToken()
     navigate('/')
-   }
+   } 
 
+   useEffect(()=>{
+    onSearch(searchTerm);
+   },[searchTerm])
+ 
+  
 
+  const handleSearch = () => {
+    onSearch(searchTerm);
+  };
   return (
     <div className='header-container'>
       
         <div className='header-serch_container'>
             <div className='header-search'>
-                <input placeholder='Serach any things' />
-                <button>Search</button>
+                <input placeholder='Serach any things'
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)} />
+                <button onClick={handleSearch} >Search</button>
             </div>
         </div>
 
@@ -56,12 +67,12 @@ const Header = () => {
 {
   token?
   <>
-    <FavoriteBorderIcon  style={{ fontSize: '2rem'}}/>  
+    <FavoriteBorderIcon  style={{ fontSize: '2rem'}}/>   
   <AddShoppingCartIcon style={{ fontSize: '2rem'}} />
   <text onClick={logout} >Logout</text>
   </>:
-  <text onClick={()=>navigate('/signin')}>Sign In</text>
-}
+  <text onClick={()=>navigate('/signin')}>Sign In</text>   
+} 
 
         
         </div>

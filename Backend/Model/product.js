@@ -12,6 +12,8 @@ const addproductSchema = mongoose.Schema({
     image2:({type:String,required:true})
 })
 
+addproductSchema.index({ title: 'text', ram: 'text', discription: 'text' });
+
 const product = mongoose.model('Product', addproductSchema)
 
 export default product;

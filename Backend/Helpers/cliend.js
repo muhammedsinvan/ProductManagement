@@ -162,4 +162,16 @@ const signupdata = async (req, res) => {
     }
   };
 
-  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail}
+  const getsearchresult = async (req,res)=>{
+    const searchTerm = req.params.searchTerm;
+    try{
+      const regex = new RegExp(`^${searchTerm}`, 'i');
+      const results = await product.find({ title: { $regex: regex } })
+      res.json(results)  
+    }catch(error){
+      res.status(500);
+      res.json(error);
+    }
+  }
+
+  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult}
