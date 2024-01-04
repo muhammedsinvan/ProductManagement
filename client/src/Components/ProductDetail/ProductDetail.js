@@ -5,7 +5,7 @@ import "./ProductDetail.css";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const ProductDetail = () => {
+const ProductDetail = ({searchResults}) => {
     const params = useParams();
 
     const [detail,setDetail] = useState({})
@@ -13,7 +13,7 @@ const ProductDetail = () => {
 
 
     useEffect(()=>{
-        (async()=>{
+      const fetchData = async () => {
           try{
             let res = await axios.get(`/api/getproductdetail/${params.id}`);
               setDetail(res.data)
@@ -21,8 +21,17 @@ const ProductDetail = () => {
           }catch(error){
             console.log(error)
           }
-        })()
-      },[])
+        }
+        if (searchResults && searchResults.data) {
+          console.log('kjfd')
+          console.log(searchResults)
+          console.log('kjfd')
+          setDetail(searchResults.data);
+          setViewimage(searchResults.data.image1)
+        } else {
+          fetchData();
+        }
+      },[searchResults])
 
   return (
     <div className='ProductDetail-container'>

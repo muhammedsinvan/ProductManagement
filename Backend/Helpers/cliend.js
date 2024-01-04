@@ -174,4 +174,40 @@ const signupdata = async (req, res) => {
     }
   }
 
-  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult}
+  const getallcatagory = async (req,res)=>{
+        try{
+          let categories = await catagory.find({}).sort({ _id: -1 });
+         
+          res.json(categories);
+    }catch(error){
+      res.status(500);
+      res.json(error);
+    }
+  }
+
+  const sendSelectedCategories = async (req,res)=>{
+    try {
+      const subcategories = req.params.subcategories.split(',');
+      const matchedProducts = await product.find({
+        subcategory: { $in: subcategories }
+      });
+  
+      res.json(matchedProducts);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+
+  const getsearchresultbyname =async (req,res)=>{
+    const title = req.params.searchTerm;
+    console.log(title)
+    try{
+      let data = await product.findOne({title})
+      res.json(data)
+    }catch(error){
+      res.status(500);
+      res.json(error);
+    }
+  }
+
+  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult,getallcatagory,sendSelectedCategories,getsearchresultbyname}

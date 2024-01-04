@@ -1,6 +1,6 @@
 .sideBar-container{
     height: 100vh;
-    width: 18rem;
+    min-width: 15rem;
     display: flex;
     flex-direction: column;
     margin-top: 11rem;
@@ -26,9 +26,10 @@
 
 .sideBar-contents_menuItem{
     display: flex;
+    justify-content: space-between;
     padding-top: 1rem;
     padding-right: 1rem;
-    gap: 6rem;
+    gap: 3rem;
 }
 
 .sideBar-contents_subMenuItem{
@@ -36,6 +37,12 @@
     align-items: center;
     margin-left: 1rem;
     margin-top: 0.5rem;
+    flex-direction: column;
+}
+
+.sideBar-contents_subMenuItem-item{
+    display: flex;
+    width: 100%;
 }
 
 .sideBar-contents_subMenuItem input{

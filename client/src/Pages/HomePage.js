@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Header from '../Components/Header/Header';
 import SideBar from '../Components/SideBar/SideBar';
 import SubHeader from '../Components/SubHeader/SubHeader';
@@ -9,7 +9,9 @@ import axios from 'axios';
 
 const HomePage = () => {
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [notFound,setNotFound] = useState(false)
+  const [catagoryData,setCategoryData] = useState([])
 
 
   const handleSearch = async (searchTerm) => {
@@ -27,18 +29,55 @@ const HomePage = () => {
 
     }catch(error){
       setNotFound(true)
-      console.log(error)
     }
   }
   };
-  console.log(notFound)
+
+
+  const handleCheckboxChange = (changedCheckbox) => {
+    const categoryName = Object.keys(changedCheckbox)[0];
+    const isChecked = changedCheckbox[categoryName];
+
+    if (isChecked) {
+      setSelectedCategories((prevSelected) => [...prevSelected, categoryName]);
+    } else {
+      setSelectedCategories((prevSelected) => prevSelected.filter((category) => category !== categoryName));
+    }
+  };
+
+  useEffect(() => {
+    // Make an API call to send selectedCategories to the backend
+    const sendSelectedCategories = async () => {
+      if (selectedCategories.length === 0){
+        setNotFound(false)
+      }else{
+        try {
+          const result =   await axios.get(`/api/sendSelectedCategories/${selectedCategories}`);
+          if(result.data.length == 0){
+            setNotFound(true)
+          }else{
+            setNotFound(false)
+            setSearchResults(result);
+          }
+          } catch (error) {
+            setNotFound(true)
+            console.error('Error sending selected categories to the backend:', error);
+          }
+      }
+    
+    };
+
+    // Call the function when selectedCategories changes
+    sendSelectedCategories();
+  }, [selectedCategories]);
+
 
   return (
     <div >
         <Header  onSearch={handleSearch}/>
         <SubHeader/>
         <div className='homePage-container'>
-        <SideBar />
+        <SideBar onCheckboxChange={handleCheckboxChange} />
         {notFound ? <Notfound /> : <Products searchResults={searchResults}  /> }
 
 
