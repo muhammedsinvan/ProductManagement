@@ -1,3 +1,8 @@
+.product-mainContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .products-container{
     display: flex;
     justify-content: center;
@@ -45,9 +50,55 @@
     cursor: pointer;
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 20px;
+    width: 100%; /* Take full width of the parent */
+    position: sticky; /* Stick to the bottom */
+    bottom: 0; /* Align to the bottom */
+
+  }
+  
+  .pagination button {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 8px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #ddd;
+  }
+
+  .pagination button.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pagination button:focus {
+    outline: none; /* Remove the default focus outline */
+}
+
+.pagination button:active {
+    background-color: #0056b3; /* Change the color when the button is clicked */
+}
+
 
 @media (max-width:900px) {
-    .products-container{
-        margin-left: 0rem;
+    .product-mainContainer {
+        align-items: stretch;
+    }
+
+    .products-container {
+        margin-left: 0;
+    }
+
+    .pagination {
+        position: relative; /* Reset position */
+        margin-top: 20px; /* Adjust as needed */
     }
 }

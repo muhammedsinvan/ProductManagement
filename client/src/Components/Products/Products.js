@@ -7,19 +7,10 @@ import {useNavigate} from 'react-router-dom'
 
 const Products = ({ searchResults }) => {
   const [data,setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(8); 
 
   const navigate = useNavigate()
-
-  // useEffect(()=>{
-  //     (async()=>{
-  //       try{
-  //         let res = await axios.get('/api/getallproducts')
-  //         setData(res.data)
-  //       }catch(error){
-  //         console.log(error)
-  //       }
-  //     })()
-  // },[])
 
 
   useEffect(() => {
@@ -41,10 +32,23 @@ const Products = ({ searchResults }) => {
     }
   }, [searchResults]);
 
+
+    // Calculate the indexes of the current page
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  
+    // Change page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    
+
   return (
+    <div className='product-mainContainer'>
+ 
     <div className='products-container'>
 
-  {data?.map((item)=>(
+  {currentItems?.map((item)=>(
     <div className='products-box' onClick={()=>navigate(`/detail/${item?._id}`)} >
       <div className='product-favoriteIcn'>
         <FavoriteBorderIcon />
@@ -65,8 +69,16 @@ const Products = ({ searchResults }) => {
         </div>
         </div>
   ))}
-      
+      <div className="pagination">
+        {Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, index) => (
+          <button key={index + 1} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </button>
+        ))}
       </div>
+      </div>
+           
+    </div>
   )
 }
 
