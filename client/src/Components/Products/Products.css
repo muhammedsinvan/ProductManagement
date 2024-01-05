@@ -6,7 +6,7 @@
 .products-container{
     display: flex;
     justify-content: center;
-    margin-top: 16rem;
+    margin-top: 12rem;
     flex-wrap: wrap;
     margin-left: 15rem;
 }
@@ -25,6 +25,7 @@
 .product-img{
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 
 .product-img img{
@@ -100,5 +101,11 @@
     .pagination {
         position: relative; /* Reset position */
         margin-top: 20px; /* Adjust as needed */
+    }
+}
+
+@media (max-width:400px) {
+    .product-mainContainer {
+        margin-top: 3rem;
     }
 }

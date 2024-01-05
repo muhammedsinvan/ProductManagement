@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import catagory from "../Model/addCategory.js";
 import product from "../Model/product.js";
 import cloudinary from "../utils/cloudinary.js";
+import favarite from "../Model/favarites.js";
 
 const signupdata = async (req, res) => {
     const { username, email, password } = req.body;
@@ -210,4 +211,28 @@ const signupdata = async (req, res) => {
     }
   }
 
-  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult,getallcatagory,sendSelectedCategories,getsearchresultbyname}
+  const favorite = async (req,res)=>{
+    const {productId} = req.body;
+    console.log(productId)
+    try{
+      let checkOnFavarite = await favarite.findOne({productId})
+      if(checkOnFavarite){
+        const id = checkOnFavarite._id;
+        let removeFavarite = await favarite.findByIdAndRemove({_id:id})
+        res.json(removeFavarite)
+      }else{
+        console.log('kjkjkjkjk')
+        const addToFavarite = new favarite({
+          productId
+        });
+    
+        const favariteAdded = await addToFavarite.save();
+        res.json(favariteAdded)
+      }
+    }catch(error){
+      res.status(500);
+      res.json(error);
+    }
+  }
+
+  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult,getallcatagory,sendSelectedCategories,getsearchresultbyname,favorite}

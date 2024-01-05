@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom"
 import "./Header.css";
 import "../WhishList/WhishList.css"
 import axios from 'axios';
+import WhishList from '../WhishList/WhishList';
 
 const Header = ({onSearch}) => { 
 
@@ -12,6 +13,7 @@ const Header = ({onSearch}) => {
 
   const [token,setToken] = useState();
   const [searchTerm, setSearchTerm] = useState('');
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
 
   const userInfo = localStorage.getItem('usertoken')
 
@@ -51,6 +53,15 @@ const Header = ({onSearch}) => {
   const handleSearch = () => {
     onSearch(searchTerm);
   };
+
+  const handleFavoriteClick = () => {
+    setIsRightSidebarOpen(true);
+  };
+
+  const closeRightSidebar = () => {
+    setIsRightSidebarOpen(false);
+  };
+
   return (
     <div className='header-container'>
       
@@ -67,8 +78,8 @@ const Header = ({onSearch}) => {
 {
   token?
   <>
-    <FavoriteBorderIcon  style={{ fontSize: '2rem'}}/>   
-  <AddShoppingCartIcon style={{ fontSize: '2rem'}} />
+    <FavoriteBorderIcon  style={{ fontSize: '2rem',cursor:"pointer"}} onClick={handleFavoriteClick}/>   
+  <AddShoppingCartIcon style={{ fontSize: '2rem',cursor:"pointer"}} />
   <text onClick={logout} >Logout</text>
   </>:
   <text onClick={()=>navigate('/signin')}>Sign In</text>   
@@ -76,7 +87,8 @@ const Header = ({onSearch}) => {
 
         
         </div>
-      
+        <WhishList isOpen={isRightSidebarOpen} onClose={closeRightSidebar} />
+
   </div>
         
 

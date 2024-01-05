@@ -11,7 +11,6 @@ const HomePage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [notFound,setNotFound] = useState(false)
-  const [catagoryData,setCategoryData] = useState([])
 
 
   const handleSearch = async (searchTerm) => {
@@ -74,8 +73,11 @@ const HomePage = () => {
 
   return (
     <div >
-        <Header  onSearch={handleSearch}/>
+      <div className='homePage-topBarContainer'>
+      <Header  onSearch={handleSearch}/>
         <SubHeader/>
+      </div>
+       
         <div className='homePage-container'>
         <SideBar onCheckboxChange={handleCheckboxChange} />
         {notFound ? <Notfound /> : <Products searchResults={searchResults}  /> }

@@ -2,7 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 
-import {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult,getallcatagory,sendSelectedCategories,getsearchresultbyname} from "../Helpers/cliend.js"
+import {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult,getallcatagory,sendSelectedCategories,getsearchresultbyname,favorite} from "../Helpers/cliend.js"
 import { protect } from '../Helpers/auth.js';
 
 
@@ -32,5 +32,7 @@ router.get("/getallcatagory",getallcatagory)
 router.get("/sendSelectedCategories/:subcategories",sendSelectedCategories)
 
 router.get("/getsearchresultbyname/:searchTerm",getsearchresultbyname)
+
+router.post("/favorite",favorite)
 
 export default router;

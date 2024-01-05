@@ -202,7 +202,7 @@ console.log(subCategoryData)
 
 
   return (
-    <div className='subHeader-container'>
+    <div className='SubHeader-rightContainer'>
     <div className='subHeader-buttons'>
             <button onClick={OpenCatagory}>Add Category</button>
             <button onClick={OpenSubCatagory}>Add Sub Category</button>

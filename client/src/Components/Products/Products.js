@@ -5,10 +5,12 @@ import "./Products.css"
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 
+
 const Products = ({ searchResults }) => {
   const [data,setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8); 
+  const [favorites, setFavorites] = useState([])
 
   const navigate = useNavigate()
 
@@ -41,7 +43,19 @@ const Products = ({ searchResults }) => {
     // Change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    
+
+    // const toggleFavorite = axios(productId) => {
+    //     let data = await axios.post
+    // };
+
+    const toggleFavorite =async(productId)=>{
+      try{
+        let data = await axios.post('/api/favorite',{productId})
+        console.log(data)
+      }catch(error){
+        console.log(error)
+      }
+    }
 
   return (
     <div className='product-mainContainer'>
@@ -49,11 +63,11 @@ const Products = ({ searchResults }) => {
     <div className='products-container'>
 
   {currentItems?.map((item)=>(
-    <div className='products-box' onClick={()=>navigate(`/detail/${item?._id}`)} >
-      <div className='product-favoriteIcn'>
-        <FavoriteBorderIcon />
+    <div className='products-box'  >
+      <div className='product-favoriteIcn' onClick={() => toggleFavorite(item._id)} >
+        <FavoriteBorderIcon  style={{color: favorites.includes(item._id) ? 'red' : 'black' }}   />
         </div>
-        <div className='product-img'>
+        <div className='product-img' onClick={()=>navigate(`/detail/${item?._id}`)}>
         <img src={item?.image1} alt='product-img'/>
         </div>
         <div className='product-content'>

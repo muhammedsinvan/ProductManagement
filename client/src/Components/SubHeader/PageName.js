@@ -5,7 +5,7 @@ import './SubHeader.css'
 const PageName = () => {
   return (
     <div>
-         <div className='subHeader-container'>
+         <div className='subHeader-leftContainer'>
 
          <div className='subHeader-pagenames'>
    <div className='subHeader-pagename'>
