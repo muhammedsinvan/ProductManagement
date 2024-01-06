@@ -56,9 +56,12 @@ const ProductDetail = ({searchResults,refresh}) => {
   return (
     <div className='ProductDetail-container'>
 <div className='ProductDetail-img'>
-<div className='ProductDetail-mainImg'>
+  <div className='ProductDetail-mainimg-container'>
+  <div className='ProductDetail-mainImg'>
 <img src={viewimage} alt='MainImg'/>
 </div>
+  </div>
+
 
 <div className='ProductDetail-listImg'>
         <div className='ProductDetail-listImg_One'>

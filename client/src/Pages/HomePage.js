@@ -93,7 +93,10 @@ console.log(refresh)
       </div>
        
         <div className='homePage-container'>
-        <SideBar onCheckboxChange={handleCheckboxChange} />
+         
+          <SideBar onCheckboxChange={handleCheckboxChange} />
+          
+       
         {notFound ? <Notfound /> : <Products searchResults={searchResults} refresh={refresh}   /> }
 
         <WhishList isOpen={isRightSidebarOpen} onClose={() => setIsRightSidebarOpen(false)} refresh={refresh} setRefresh={setRefresh} />

@@ -13,6 +13,7 @@
  visibility: hidden;
 }
 
+
 .addProduct-mainContainer.active{
     opacity: 1;
     visibility: visible;
