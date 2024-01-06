@@ -3,13 +3,13 @@ import PageName from './PageName';
 import Buttons from './Buttons';
 import './SubHeader.css'
 
-const SubHeader = () => {
+const SubHeader = ({pageName}) => {
   return (
    
        
         <div className='subHeader-subContainer'>
          
-          <PageName />
+          <PageName pageName={pageName}/>
         
           <Buttons/>
        

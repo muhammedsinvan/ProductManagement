@@ -11,6 +11,8 @@ const ProductDetailPage = () => {
 
   const [searchResults, setSearchResults] = useState({});
   const [notFound,setNotFound] = useState(false)
+  const [pageName,setPageName] = useState([{name:'Home',link:'/'},{name:'Product Detail'}])
+
 
   const handleSearch = async (searchTerm) => {
     console.log(searchTerm)
@@ -44,7 +46,7 @@ const ProductDetailPage = () => {
   return (
     <div>
       <Header onSearch={handleSearch}  openWishlistSidebar={openWishlistSidebar}/>
-      <PageName  />
+      <PageName pageName={pageName}  />
       {/* {searchResults ? <ProductDetail searchResults={searchResults}  /> : <ProductDetail /> } */}
      {notFound ? <Notfound /> : <ProductDetail searchResults={searchResults} refresh={refresh}  /> }
 

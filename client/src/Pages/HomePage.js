@@ -12,6 +12,7 @@ const HomePage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [notFound,setNotFound] = useState(false)
+  const [pageName,setPageName] = useState([{name:'Home',link:'/'}])
 
 
   const handleSearch = async (searchTerm) => {
@@ -88,7 +89,7 @@ console.log(refresh)
     <div >
       <div className='homePage-topBarContainer'>
       <Header  onSearch={handleSearch} openWishlistSidebar={openWishlistSidebar}/>
-        <SubHeader/>
+        <SubHeader pageName={pageName}/>
       </div>
        
         <div className='homePage-container'>
