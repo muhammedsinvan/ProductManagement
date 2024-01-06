@@ -16,7 +16,7 @@
     flex-direction: column;
     border: 1px solid #B6B6B6;
     border-radius: 20px;
-    width: 20rem;
+    width: 21rem;
     height: 20rem;
     margin-left: 1rem;
     margin-top: 2rem;
@@ -29,8 +29,8 @@
 }
 
 .product-img img{
-    width: 10rem;
-    height: 10rem;
+    width: 9rem;
+    height: 9rem;
 }
 
 .product-favoriteIcn{
