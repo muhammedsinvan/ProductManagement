@@ -235,4 +235,41 @@ const signupdata = async (req, res) => {
     }
   }
 
-  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult,getallcatagory,sendSelectedCategories,getsearchresultbyname,favorite}
+  const getallfavarites = async (req,res)=>{
+    try{
+      let data = await favarite.find({})
+      res.json(data)
+    }catch(error){
+      res.status(500);
+      res.json(error);
+    }
+  }
+
+  const getFavoritProduct = async(req,res)=>{
+    console.log("jkfds")
+    try{
+      let allFavorites = await favarite.find() 
+      const favoriteProductIds = allFavorites.map((favorite) => favorite.productId);
+      console.log('kjd')
+      const favoritedProducts = await product.find({ _id: { $in: favoriteProductIds } });
+      console.log('finded')
+      console.log(favoritedProducts)
+      res.json(favoritedProducts)
+    }catch(error){
+      res.status(500);
+      res.json(error);
+    }
+  }
+
+  const removeItemFavorite = async(req,res)=>{
+    const id = req.params.itemid;
+    try{
+      let removeFavarite = await favarite.findOneAndRemove({productId:id})
+      res.json(removeFavarite)
+    }catch(error){
+      res.status(500);
+      res.json(error);
+    }
+  }
+
+  export {signupdata,signindata,checktoken,addcatagory,getcatagory,addsubcatagory,addproduct,getallproducts,getproductdetail,getsearchresult,getallcatagory,sendSelectedCategories,getsearchresultbyname,favorite,getallfavarites,getFavoritProduct,removeItemFavorite}

@@ -23,6 +23,12 @@
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   transition: right 0.3s ease-in-out;
+  overflow-y: scroll;
+ 
+}
+
+.right-sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 .right-sidebar.open {

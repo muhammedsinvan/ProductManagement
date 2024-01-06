@@ -6,14 +6,14 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 
 
-const Products = ({ searchResults }) => {
+const Products = ({ searchResults,refresh }) => {
   const [data,setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8); 
   const [favorites, setFavorites] = useState([])
+  const [refreshs,setRefreshs] = useState(false)
 
   const navigate = useNavigate()
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,14 +25,12 @@ const Products = ({ searchResults }) => {
       }
     };
 
-    if (searchResults && searchResults.data && searchResults.data.length > 0) {
-      // Fetch all products only if there are no search results
+    if (searchResults && searchResults.data && searchResults.data.length > 0) { 
       setData(searchResults.data);
     } else {
-      // Use search results if available
       fetchData();
     }
-  }, [searchResults]);
+  }, [searchResults,refresh]);
 
 
     // Calculate the indexes of the current page
@@ -51,11 +49,26 @@ const Products = ({ searchResults }) => {
     const toggleFavorite =async(productId)=>{
       try{
         let data = await axios.post('/api/favorite',{productId})
+        setRefreshs(!refreshs)
         console.log(data)
       }catch(error){
         console.log(error)
       }
     }
+
+    useEffect(()=>{
+      (async()=>{
+        try{
+          let res = await axios.get('/api/getallfavarites')
+          setFavorites(res.data)
+        }catch(error){
+          console.log(error)
+        }
+
+      })()
+    },[refresh,refreshs])
+
+    console.log(favorites)
 
   return (
     <div className='product-mainContainer'>
@@ -65,7 +78,9 @@ const Products = ({ searchResults }) => {
   {currentItems?.map((item)=>(
     <div className='products-box'  >
       <div className='product-favoriteIcn' onClick={() => toggleFavorite(item._id)} >
-        <FavoriteBorderIcon  style={{color: favorites.includes(item._id) ? 'red' : 'black' }}   />
+        <FavoriteBorderIcon  style={{
+          color: favorites.some((favorite) => favorite.productId === item._id) ? 'red' : 'black',
+        }}  /> 
         </div>
         <div className='product-img' onClick={()=>navigate(`/detail/${item?._id}`)}>
         <img src={item?.image1} alt='product-img'/>

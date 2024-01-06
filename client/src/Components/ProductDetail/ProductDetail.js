@@ -5,12 +5,13 @@ import "./ProductDetail.css";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const ProductDetail = ({searchResults}) => {
+const ProductDetail = ({searchResults,refresh}) => {
     const params = useParams();
 
     const [detail,setDetail] = useState({})
     const [viewimage,setViewimage] = useState()
-
+    const [favorites, setFavorites] = useState([])
+    const [refreshs,setRefreshs] = useState(false)
 
     useEffect(()=>{
       const fetchData = async () => {
@@ -23,15 +24,34 @@ const ProductDetail = ({searchResults}) => {
           }
         }
         if (searchResults && searchResults.data) {
-          console.log('kjfd')
-          console.log(searchResults)
-          console.log('kjfd')
           setDetail(searchResults.data);
           setViewimage(searchResults.data.image1)
         } else {
           fetchData();
         }
-      },[searchResults])
+      },[searchResults,refresh])
+
+      const toggleFavorite =async(productId)=>{
+        try{
+          let data = await axios.post('/api/favorite',{productId})
+          setRefreshs(!refreshs)
+          console.log(data)
+        }catch(error){
+          console.log(error)
+        }
+      }
+
+      useEffect(()=>{
+        (async()=>{
+          try{
+            let res = await axios.get('/api/getallfavarites')
+            setFavorites(res.data)
+          }catch(error){
+            console.log(error)
+          }
+  
+        })()
+      },[refresh,refreshs])
 
   return (
     <div className='ProductDetail-container'>
@@ -87,7 +107,7 @@ const ProductDetail = ({searchResults}) => {
 <div className='ProductDetail-button_main'>
 <button>Edit product</button>
 <button>Buy it now</button>
-<FavoriteBorderIcon style={{fontSize:"3.5rem",backgroundColor:"#EEEEEE" , borderRadius:"50%",padding:"9px",cursor:"pointer"}} />
+<FavoriteBorderIcon style={{fontSize:"3.5rem",backgroundColor:"#EEEEEE" , borderRadius:"50%",padding:"9px",cursor:"pointer",color: favorites.some((favorite) => favorite.productId === detail._id) ? 'red' : 'black'}} onClick={() => toggleFavorite(detail._id)} />
 </div>
 
 

@@ -6,6 +6,7 @@ import Products from '../Components/Products/Products';
 import Notfound from '../Components/NotFound/NotFound';
 import "./Pages.css";
 import axios from 'axios';
+import WhishList from '../Components/WhishList/WhishList';
 
 const HomePage = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -71,18 +72,30 @@ const HomePage = () => {
   }, [selectedCategories]);
 
 
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+const [refresh, setRefresh] = useState(false);
+
+const openWishlistSidebar = () => {
+  setIsRightSidebarOpen(true);
+};
+
+console.log(refresh)
+
+
+
+
   return (
     <div >
       <div className='homePage-topBarContainer'>
-      <Header  onSearch={handleSearch}/>
+      <Header  onSearch={handleSearch} openWishlistSidebar={openWishlistSidebar}/>
         <SubHeader/>
       </div>
        
         <div className='homePage-container'>
         <SideBar onCheckboxChange={handleCheckboxChange} />
-        {notFound ? <Notfound /> : <Products searchResults={searchResults}  /> }
+        {notFound ? <Notfound /> : <Products searchResults={searchResults} refresh={refresh}   /> }
 
-
+        <WhishList isOpen={isRightSidebarOpen} onClose={() => setIsRightSidebarOpen(false)} refresh={refresh} setRefresh={setRefresh} />
         </div>
     </div>
   )

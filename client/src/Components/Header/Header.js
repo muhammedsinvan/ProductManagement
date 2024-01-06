@@ -7,13 +7,14 @@ import "../WhishList/WhishList.css"
 import axios from 'axios';
 import WhishList from '../WhishList/WhishList';
 
-const Header = ({onSearch}) => { 
+const Header = ({onSearch,openWishlistSidebar}) => { 
 
   const navigate = useNavigate();
 
   const [token,setToken] = useState();
   const [searchTerm, setSearchTerm] = useState('');
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+  const [refresh,setRefresh] = useState(false)
 
   const userInfo = localStorage.getItem('usertoken')
 
@@ -35,7 +36,7 @@ const Header = ({onSearch}) => {
       }
     })()
     
-  })
+  },[])
 
   const logout =()=>{
     localStorage.removeItem('usertoken')
@@ -55,12 +56,17 @@ const Header = ({onSearch}) => {
   };
 
   const handleFavoriteClick = () => {
-    setIsRightSidebarOpen(true);
+    openWishlistSidebar(); 
   };
 
-  const closeRightSidebar = () => {
-    setIsRightSidebarOpen(false);
-  };
+  // const handleFavoriteClick = () => {
+  //   setIsRightSidebarOpen(true);
+  // };
+
+  // const closeRightSidebar = () => {
+  //   setIsRightSidebarOpen(false);
+  //   setRefresh(!refresh)
+  // };
 
   return (
     <div className='header-container'>
@@ -87,7 +93,7 @@ const Header = ({onSearch}) => {
 
         
         </div>
-        <WhishList isOpen={isRightSidebarOpen} onClose={closeRightSidebar} />
+        {/* <WhishList isOpen={isRightSidebarOpen} onClose={closeRightSidebar} /> */}
 
   </div>
         
