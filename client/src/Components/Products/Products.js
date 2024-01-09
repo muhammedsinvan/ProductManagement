@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import "./Products.css"
@@ -6,14 +6,40 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 
 
-const Products = ({ searchResults,refresh }) => {
+const Products = ({ searchResults,refresh}) => {
+
+  console.log(refresh)
+
   const [data,setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8); 
   const [favorites, setFavorites] = useState([])
   const [refreshs,setRefreshs] = useState(false)
+  const [error,setError] = useState(false)
+
+
+  const user = localStorage.getItem('userid')
+
+  const userInfo = localStorage.getItem('usertoken')
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userInfo}`,
+    },
+  };
+
 
   const navigate = useNavigate()
+  const messagesEndRef = useRef();
+
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
+  }
+
+  useEffect(() => { 
+    scrollToBottom()
+  }, [error]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,9 +74,14 @@ const Products = ({ searchResults,refresh }) => {
 
     const toggleFavorite =async(productId)=>{
       try{
-        let data = await axios.post('/api/favorite',{productId})
-        setRefreshs(!refreshs)
-        console.log(data)
+        if(user){
+          let data = await axios.post(`/api/favorite/${user}`,{productId})
+          setRefreshs(!refreshs)
+          console.log(data)
+        }else{
+          alert()
+        }
+        
       }catch(error){
         console.log(error)
       }
@@ -59,8 +90,8 @@ const Products = ({ searchResults,refresh }) => {
     useEffect(()=>{
       (async()=>{
         try{
-          let res = await axios.get('/api/getallfavarites')
-          setFavorites(res.data)
+          let res = await axios.get(`/api/getallfavarites/${user}`,config)
+          setFavorites(res.data.products)
         }catch(error){
           console.log(error)
         }
@@ -68,13 +99,23 @@ const Products = ({ searchResults,refresh }) => {
       })()
     },[refresh,refreshs])
 
-    console.log(favorites)
+    function alert(){
+      setError(true)
+      setTimeout(() => {
+        setError(false)
+      }, 3000);
+      
+    }
+
 
   return (
     <div className='product-mainContainer'>
- 
+  {error&&
+        <div ref={messagesEndRef} className='product-mainContainer-error'>
+        <p>Please make login</p>
+        </div>
+        }
     <div className='products-container'>
-
   {currentItems?.map((item)=>(
     <div className='products-box'  >
       <div className='product-favoriteIcn' onClick={() => toggleFavorite(item._id)} >

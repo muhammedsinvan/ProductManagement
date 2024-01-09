@@ -5,16 +5,13 @@ import {useNavigate} from "react-router-dom"
 import "./Header.css";
 import "../WhishList/WhishList.css"
 import axios from 'axios';
-import WhishList from '../WhishList/WhishList';
 
-const Header = ({onSearch,openWishlistSidebar}) => { 
+const Header = ({onSearch,openWishlistSidebar,onLogout}) => { 
 
   const navigate = useNavigate();
 
   const [token,setToken] = useState();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
-  const [refresh,setRefresh] = useState(false)
 
   const userInfo = localStorage.getItem('usertoken')
 
@@ -42,6 +39,7 @@ const Header = ({onSearch,openWishlistSidebar}) => {
     localStorage.removeItem('usertoken')
     localStorage.removeItem('userid')
     setToken()
+    onLogout();
     navigate('/')
    } 
 
@@ -93,7 +91,6 @@ const Header = ({onSearch,openWishlistSidebar}) => {
 
         
         </div>
-        {/* <WhishList isOpen={isRightSidebarOpen} onClose={closeRightSidebar} /> */}
 
   </div>
         

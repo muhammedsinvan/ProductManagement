@@ -21,7 +21,6 @@ const signupdata = async (req, res) => {
         password: CryptoJS.AES.encrypt(password, process.env.PASS_KEY),
       });
       const savedUser = await newUser.save();
-      console.log(savedUser);
       res.status(200).json(savedUser);
     } catch (err) {
       res.status(500).json(err);
@@ -83,7 +82,6 @@ const signupdata = async (req, res) => {
   const getcatagory = async (req,res)=>{
     try{
         const data = await catagory.find();
-        console.log(data)
         res.json(data);    
     }catch(error){
         res.status(500);
@@ -201,7 +199,6 @@ const signupdata = async (req, res) => {
 
   const getsearchresultbyname =async (req,res)=>{
     const title = req.params.searchTerm;
-    console.log(title)
     try{
       let data = await product.findOne({title})
       res.json(data)
@@ -213,21 +210,38 @@ const signupdata = async (req, res) => {
 
   const favorite = async (req,res)=>{
     const {productId} = req.body;
-    console.log(productId)
+    const userid = req.params.userid;
     try{
-      let checkOnFavarite = await favarite.findOne({productId})
-      if(checkOnFavarite){
-        const id = checkOnFavarite._id;
-        let removeFavarite = await favarite.findByIdAndRemove({_id:id})
-        res.json(removeFavarite)
+      let [data] = await favarite.find({userid})
+      if(data){
+        let itemindex = data.products.findIndex((p)=>p.productId == productId)
+        if(itemindex >= 0){
+          let findProductItem = data.products[itemindex]
+          data.products.pull(findProductItem);
+          let removeFavorite = await data.save();
+          res.json(removeFavorite);
+        }else{
+        const addFavorite =  await favarite.findOneAndUpdate({userid},{
+        $push:{
+          products:{
+            productId:productId
+          }
+        }
+       })
+       res.json(addFavorite)
+        }
       }else{
-        console.log('kjkjkjkjk')
-        const addToFavarite = new favarite({
-          productId
-        });
-    
-        const favariteAdded = await addToFavarite.save();
-        res.json(favariteAdded)
+        const newFavorite = new favarite({
+          userid,
+          products:[
+            {
+              productId:productId
+            }
+          ]
+        })
+
+        let addNewFavorite = await newFavorite.save();
+        res.json(addNewFavorite)
       }
     }catch(error){
       res.status(500);
@@ -236,8 +250,9 @@ const signupdata = async (req, res) => {
   }
 
   const getallfavarites = async (req,res)=>{
+    const userid = req.params.userid;
     try{
-      let data = await favarite.find({})
+      let [data] = await favarite.find({userid})
       res.json(data)
     }catch(error){
       res.status(500);
@@ -246,14 +261,11 @@ const signupdata = async (req, res) => {
   }
 
   const getFavoritProduct = async(req,res)=>{
-    console.log("jkfds")
+    const userid = req.params.userid;
     try{
-      let allFavorites = await favarite.find() 
-      const favoriteProductIds = allFavorites.map((favorite) => favorite.productId);
-      console.log('kjd')
+      let [allFavorites] = await favarite.find({userid}) 
+      const favoriteProductIds = allFavorites.products.map((favorite) => favorite.productId);
       const favoritedProducts = await product.find({ _id: { $in: favoriteProductIds } });
-      console.log('finded')
-      console.log(favoritedProducts)
       res.json(favoritedProducts)
     }catch(error){
       res.status(500);
@@ -262,10 +274,16 @@ const signupdata = async (req, res) => {
   }
 
   const removeItemFavorite = async(req,res)=>{
-    const id = req.params.itemid;
-    try{
-      let removeFavarite = await favarite.findOneAndRemove({productId:id})
-      res.json(removeFavarite)
+    const productId = req.params.itemid;
+    const userid = req.params.userid;
+     try{
+      let [data] = await favarite.find({userid})
+      let itemindex = data.products.findIndex((p)=>p.productId == productId)
+      let findProductItem = data.products[itemindex]
+      console.log(findProductItem)
+      data.products.pull(findProductItem);
+      let removeFavorite = await data.save();
+      res.json(removeFavorite);
     }catch(error){
       res.status(500);
       res.json(error);

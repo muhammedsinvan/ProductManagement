@@ -33,12 +33,12 @@ router.get("/sendSelectedCategories/:subcategories",sendSelectedCategories)
 
 router.get("/getsearchresultbyname/:searchTerm",getsearchresultbyname)
 
-router.post("/favorite",favorite)
+router.post("/favorite/:userid",favorite)
 
-router.get("/getallfavarites",getallfavarites)
+router.get("/getallfavarites/:userid",protect,getallfavarites)
 
-router.get("/getFavoritProduct",getFavoritProduct)
+router.get("/getFavoritProduct/:userid",protect,getFavoritProduct)
 
-router.get("/removeItemFavorite/:itemid",removeItemFavorite)
+router.get("/removeItemFavorite/:userid/:itemid",protect,removeItemFavorite)
 
 export default router;

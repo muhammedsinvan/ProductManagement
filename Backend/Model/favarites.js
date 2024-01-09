@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 
 const favariteSchema = mongoose.Schema({
-    productId:({type:String,required:true})
+    userid:({type:String,required:true}),
+    products:[{
+        productId:{type:String,required:true}
+    }]
 })
 
 

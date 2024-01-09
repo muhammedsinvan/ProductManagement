@@ -13,6 +13,7 @@ const HomePage = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [notFound,setNotFound] = useState(false)
   const [pageName,setPageName] = useState([{name:'Home',link:'/'}])
+  const [produtRefresh,setProdutRefresh] = useState(false)
 
 
   const handleSearch = async (searchTerm) => {
@@ -80,15 +81,16 @@ const openWishlistSidebar = () => {
   setIsRightSidebarOpen(true);
 };
 
-console.log(refresh)
 
-
-
+const handleLogout = () => {
+  setProdutRefresh(!produtRefresh)
+  // setRefreshProducts((prev) => !prev); // Toggle the refreshProducts state to trigger Products component re-render
+};
 
   return (
     <div >
       <div className='homePage-topBarContainer'>
-      <Header  onSearch={handleSearch} openWishlistSidebar={openWishlistSidebar}/>
+      <Header  onSearch={handleSearch} openWishlistSidebar={openWishlistSidebar} onLogout={handleLogout}/>
         <SubHeader pageName={pageName}/>
       </div>
        

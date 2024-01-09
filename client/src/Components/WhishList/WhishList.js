@@ -10,11 +10,20 @@ import Notfound from '../NotFound/NotFound';
 const WhishList = ({ isOpen, onClose, refresh, setRefresh }) => {
   const [data,setData] = useState([])
 
+  const user = localStorage.getItem('userid')
+
+  const userInfo = localStorage.getItem('usertoken')
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userInfo}`,
+    },
+  };
 
   useEffect(()=>{
     (async()=>{
       try{
-        let datas = await axios.get('/api/getFavoritProduct');
+        let datas = await axios.get(`/api/getFavoritProduct/${user}`,config);
         setData(datas.data)
         if(data.length !== 0){
           console.log('not empty')
@@ -30,7 +39,7 @@ const WhishList = ({ isOpen, onClose, refresh, setRefresh }) => {
    
   const removeFavorite =async(itemid)=>{
     try{
-      let removeItem = await axios.get(`/api/removeItemFavorite/${itemid}`)
+      let removeItem = await axios.get(`/api/removeItemFavorite/${user}/${itemid}`,config)
       console.log(removeItem)
       setRefresh(!refresh)
     }catch(error){
