@@ -13,6 +13,16 @@ const ProductDetail = ({searchResults,refresh}) => {
     const [favorites, setFavorites] = useState([])
     const [refreshs,setRefreshs] = useState(false)
 
+    const user = localStorage.getItem('userid')
+
+    const userInfo = localStorage.getItem('usertoken')
+  
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo}`,
+      },
+    };
+
     useEffect(()=>{
       const fetchData = async () => {
           try{
@@ -33,7 +43,7 @@ const ProductDetail = ({searchResults,refresh}) => {
 
       const toggleFavorite =async(productId)=>{
         try{
-          let data = await axios.post('/api/favorite',{productId})
+          let data = await axios.post(`/api/favorite/${user}`,{productId})
           setRefreshs(!refreshs)
           console.log(data)
         }catch(error){
@@ -44,8 +54,8 @@ const ProductDetail = ({searchResults,refresh}) => {
       useEffect(()=>{
         (async()=>{
           try{
-            let res = await axios.get('/api/getallfavarites')
-            setFavorites(res.data)
+            let res = await axios.get(`/api/getallfavarites/${user}`,config)
+            setFavorites(res.data.products)
           }catch(error){
             console.log(error)
           }
